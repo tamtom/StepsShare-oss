@@ -1,0 +1,71 @@
+.gradle
+/local.properties
+.DS_Store
+build/
+/captures
+.externalNativeBuild
+.cxx
+# iOS
+iosApp/Pods/
+iosApp/iosApp.xcworkspace/
+iosApp/iosApp.xcodeproj/
+!iosApp/iosApp.xcodeproj/project.pbxproj
+iosApp/iosApp.xcodeproj/xcuserdata/
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Android
+androidApp/release/
+androidApp/debug/
+androidApp/build/
+androidApp/.gradle/
+.kotlin
+core/network/http_requests/http-client.private.env.json
+
+# IntelliJ .idea folder
+.idea/
+*.iml
+
+# Additional common patterns
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE and Editor files
+.cursor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Generated files
+**/generated/
+**/build/
+**/out/
+
+# KSP generated files
+**/ksp/
+
+# Local configuration
+local.properties
+local.gradle.properties
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
