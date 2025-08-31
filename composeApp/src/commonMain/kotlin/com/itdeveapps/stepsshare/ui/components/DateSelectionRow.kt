@@ -61,7 +61,7 @@ fun DayProgressItem(
                     modifier = Modifier
                         .size(60.dp)
                         .clip(CircleShape)
-                        .background(AppColors.primary.copy(alpha = 0.1f))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
                 )
             }
             
@@ -78,7 +78,7 @@ fun DayProgressItem(
                 text = dateNumber,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (dayInfo.isSelected) AppColors.primary else AppColors.textPrimary,
+                color = if (dayInfo.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
         }
@@ -91,10 +91,10 @@ fun DayProgressItem(
             fontSize = 10.sp,
             fontWeight = if (dayInfo.isToday) FontWeight.Bold else FontWeight.Normal,
             color = when {
-                dayInfo.isFuture -> AppColors.textTertiary
-                dayInfo.isSelected -> AppColors.primary
-                dayInfo.isToday -> AppColors.primary
-                else -> AppColors.textSecondary
+                dayInfo.isFuture -> MaterialTheme.colorScheme.outlineVariant
+                dayInfo.isSelected -> MaterialTheme.colorScheme.primary
+                dayInfo.isToday -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.onSurfaceVariant
             },
             textAlign = TextAlign.Center
         )

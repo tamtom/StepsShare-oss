@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+import com.itdeveapps.stepsshare.ui.theme.CustomColors
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,7 +28,7 @@ fun ToolbarComponent(
                 "Steps Share",
                 style = TextStyle(
                     brush = Brush.horizontalGradient(
-                        listOf(AppColors.buttonGradientStart, AppColors.buttonGradientEnd)
+                        listOf(CustomColors.ButtonGradientStart, CustomColors.ButtonGradientEnd)
                     ),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold

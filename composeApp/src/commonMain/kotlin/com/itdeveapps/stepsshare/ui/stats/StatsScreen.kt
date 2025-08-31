@@ -176,7 +176,7 @@ private fun UnifiedChart(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = AppColors.background),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
         border = BorderStroke(
             width = 1.dp,
             color = AppColors.surface
