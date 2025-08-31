@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+import com.itdeveapps.stepsshare.ui.theme.CustomColors
 
 @Composable
 fun GoalMetricDial(
@@ -30,7 +30,7 @@ fun GoalMetricDial(
     valueText: String,
     unitText: String,
     modifier: Modifier = Modifier,
-    progressColors: List<Color> = listOf(AppColors.accentGreen, AppColors.primaryLight)
+    progressColors: List<Color> = listOf(CustomColors.AccentGreen, MaterialTheme.colorScheme.secondary)
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
@@ -54,7 +54,7 @@ fun GoalMetricDial(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = AppColors.accentGreen,
+                tint = CustomColors.AccentGreen,
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -65,14 +65,14 @@ fun GoalMetricDial(
             text = valueText,
             fontSize = 22.sp,
             fontWeight = FontWeight.SemiBold,
-            color = AppColors.textPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
         Text(
             text = unitText,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            color = AppColors.textSecondary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
     }

@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import org.koin.compose.viewmodel.koinViewModel
 
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+
 import com.itdeveapps.stepsshare.ui.components.GradientButton
 import com.itdeveapps.stepsshare.ui.stats.components.TrendingChart
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -179,7 +179,7 @@ private fun UnifiedChart(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
         border = BorderStroke(
             width = 1.dp,
-            color = AppColors.surface
+            color = MaterialTheme.colorScheme.surface
         )
     ) {
         Column(
@@ -275,13 +275,13 @@ private fun ChartTitle(selectedDataType: ChartDataType) {
                 ChartDataType.DISTANCE -> Icons.AutoMirrored.Filled.DirectionsWalk
             },
             contentDescription = null,
-            tint = AppColors.primary,
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(24.dp)
         )
         Text(
             text = selectedDataType.name.lowercase().replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.titleLarge,
-            color = AppColors.textPrimary
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -297,11 +297,11 @@ private fun DataTypeSelector(
         OutlinedButton(
             onClick = { onDropdownExpandedChange(true) },
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = AppColors.textPrimary
+                contentColor = MaterialTheme.colorScheme.onBackground
             ),
             border = BorderStroke(
                 width = 1.dp,
-                color = AppColors.surface
+                color = MaterialTheme.colorScheme.surface
             )
         ) {
             Text(selectedDataType.name.lowercase().replaceFirstChar { it.uppercase() })
@@ -315,14 +315,14 @@ private fun DataTypeSelector(
         DropdownMenu(
             expanded = isDropdownExpanded,
             onDismissRequest = { onDropdownExpandedChange(false) },
-            modifier = Modifier.background(AppColors.surface)
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
             ChartDataType.entries.forEach { dataType ->
                 DropdownMenuItem(
                     text = {
                         Text(
                             text = dataType.name.lowercase().replaceFirstChar { it.uppercase() },
-                            color = if (selectedDataType == dataType) AppColors.primary else AppColors.textPrimary
+                            color = if (selectedDataType == dataType) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
                         )
                     },
                     onClick = { onDataTypeSelected(dataType) },
@@ -331,7 +331,7 @@ private fun DataTypeSelector(
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Selected",
-                                tint = AppColors.primary
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -435,7 +435,7 @@ private fun ChartDisplay(
         ),
         labelProperties = LabelProperties(
             textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = AppColors.onSurface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             enabled = true
         ),
@@ -443,20 +443,20 @@ private fun ChartDisplay(
             LabelHelperProperties(
                 enabled = true,
                 textStyle = MaterialTheme.typography.bodySmall.copy(
-                    color = AppColors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             ),
         indicatorProperties = when (selectedDataType) {
             ChartDataType.STEPS -> HorizontalIndicatorProperties(
                 textStyle = MaterialTheme.typography.bodySmall.copy(
-                    color = AppColors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             )
 
             ChartDataType.CALORIES -> HorizontalIndicatorProperties(
                 enabled = true,
                 textStyle = MaterialTheme.typography.bodySmall.copy(
-                    color = AppColors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 count = IndicatorCount.CountBased(count = 5),
                 contentBuilder = { indicator ->
@@ -467,7 +467,7 @@ private fun ChartDisplay(
             ChartDataType.DURATION -> HorizontalIndicatorProperties(
                 enabled = true,
                 textStyle = MaterialTheme.typography.bodySmall.copy(
-                    color = AppColors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 count = IndicatorCount.CountBased(count = 5),
                 contentBuilder = { indicator ->
@@ -479,7 +479,7 @@ private fun ChartDisplay(
             ChartDataType.DISTANCE -> HorizontalIndicatorProperties(
                 enabled = true,
                 textStyle = MaterialTheme.typography.bodySmall.copy(
-                    color = AppColors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 count = IndicatorCount.CountBased(count = 5),
                 contentBuilder = { indicator ->
@@ -495,7 +495,7 @@ private fun ChartDisplay(
             ),
             yAxisProperties = GridProperties.AxisProperties(
                 enabled = true,
-                color = SolidColor(AppColors.onSurface.copy(alpha = 0.3f)),
+                color = SolidColor(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)),
                 thickness = 1.dp,
                 lineCount = 1
             )
@@ -537,12 +537,12 @@ private fun StatItem(
         Text(
             text = value,
             style = MaterialTheme.typography.headlineSmall,
-            color = AppColors.primary
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = AppColors.textSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -561,12 +561,12 @@ private fun EmptyChartPlaceholder() {
             Text(
                 text = "No data available",
                 style = MaterialTheme.typography.bodyLarge,
-                color = AppColors.textSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = "Start walking to see your stats!",
                 style = MaterialTheme.typography.bodyMedium,
-                color = AppColors.textTertiary
+                color = MaterialTheme.colorScheme.outlineVariant
             )
         }
     }
@@ -578,7 +578,7 @@ private fun PermissionRequiredCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = AppColors.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier.padding(24.dp),
@@ -587,7 +587,7 @@ private fun PermissionRequiredCard(
             Text(
                 text = "Permission Required",
                 style = MaterialTheme.typography.titleLarge,
-                color = AppColors.textPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -595,7 +595,7 @@ private fun PermissionRequiredCard(
             Text(
                 text = "We need access to your health data to show step statistics.",
                 style = MaterialTheme.typography.bodyMedium,
-                color = AppColors.textSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -612,7 +612,7 @@ private fun PermissionRequiredCard(
 private fun LoadingCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = AppColors.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Box(
             modifier = Modifier
@@ -624,13 +624,13 @@ private fun LoadingCard() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CircularProgressIndicator(
-                    color = AppColors.primary
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Loading statistics...",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = AppColors.textSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -644,7 +644,7 @@ private fun ErrorCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = AppColors.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier.padding(24.dp),
@@ -653,7 +653,7 @@ private fun ErrorCard(
             Text(
                 text = "Error Loading Data",
                 style = MaterialTheme.typography.titleLarge,
-                color = AppColors.textPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -661,7 +661,7 @@ private fun ErrorCard(
             Text(
                 text = error,
                 style = MaterialTheme.typography.bodyMedium,
-                color = AppColors.textSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -692,18 +692,18 @@ private fun DateRangeSelector(
                 onClick = onWeekSelected,
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (selectedDateRange == OverViewDateRange.WEEK) AppColors.primary else AppColors.surface
+                    containerColor = if (selectedDateRange == OverViewDateRange.WEEK) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
                 ),
                 border = BorderStroke(
                     width = 1.dp,
-                    color = AppColors.surface
+                    color = MaterialTheme.colorScheme.surface
                 ),
                 shape = RoundedCornerShape(8.dp)
 
             ) {
                 Text(
                     "Week",
-                    color = if (selectedDateRange == OverViewDateRange.WEEK) AppColors.onPrimary else AppColors.textPrimary
+                    color = if (selectedDateRange == OverViewDateRange.WEEK) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
                 )
             }
 
@@ -711,17 +711,17 @@ private fun DateRangeSelector(
                 onClick = onMonthSelected,
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (selectedDateRange == OverViewDateRange.MONTH) AppColors.primary else AppColors.surface
+                    containerColor = if (selectedDateRange == OverViewDateRange.MONTH) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
                 ),
                 border = BorderStroke(
                     width = 1.dp,
-                    color = AppColors.surface
+                    color = MaterialTheme.colorScheme.surface
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
                     "Month",
-                    color = if (selectedDateRange == OverViewDateRange.MONTH) AppColors.onPrimary else AppColors.textPrimary
+                    color = if (selectedDateRange == OverViewDateRange.MONTH) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
                 )
             }
         }

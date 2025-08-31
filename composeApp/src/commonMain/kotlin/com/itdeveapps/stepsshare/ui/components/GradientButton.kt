@@ -19,7 +19,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+
 
 @Composable
 fun GradientButton(
@@ -36,7 +36,7 @@ fun GradientButton(
         modifier = modifier
             .shadow(elevation = 8.dp, shape = shape, clip = false)
             .clip(shape)
-            .background(AppColors.buttonGradient)
+            .background(CustomColors.ButtonGradient)
             .defaultMinSize(minWidth = 160.dp, minHeight = 52.dp)
             .clickable(
                 enabled = enabled,
@@ -49,7 +49,7 @@ fun GradientButton(
         Text(
             text = text,
             style = MaterialTheme.typography.titleMedium,
-            color = AppColors.onPrimary,
+            color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
         )

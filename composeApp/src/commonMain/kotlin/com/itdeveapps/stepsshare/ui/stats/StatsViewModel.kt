@@ -12,7 +12,7 @@ import com.itdeveapps.stepsshare.domain.usecase.TrendingRange
 import com.itdeveapps.stepsshare.domain.usecase.TrendingUseCase
 import com.itdeveapps.stepsshare.ui.stats.model.TrendIndicator
 import com.itdeveapps.stepsshare.ui.stats.model.TrendingStatsData
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+import com.itdeveapps.stepsshare.ui.theme.CustomColors
 import ir.ehsannarmani.compose_charts.models.Bars
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -665,8 +665,8 @@ class StatsViewModel(
     private fun createStepsGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.progressPrimary,
-                AppColors.progressSecondary
+                CustomColors.ProgressGradientStart,
+                CustomColors.ProgressGradientEnd
             )
         )
     }
@@ -674,8 +674,8 @@ class StatsViewModel(
     private fun createCaloriesGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.primary,
-                AppColors.secondary
+                CustomColors.ButtonGradientStart,
+                CustomColors.ButtonGradientEnd
             )
         )
     }
@@ -683,8 +683,8 @@ class StatsViewModel(
     private fun createDurationGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.primary,
-                AppColors.secondary
+                CustomColors.ButtonGradientStart,
+                CustomColors.ButtonGradientEnd
             )
         )
     }
@@ -692,8 +692,8 @@ class StatsViewModel(
     private fun createDistanceGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.primary,
-                AppColors.secondary
+                CustomColors.ButtonGradientStart,
+                CustomColors.ButtonGradientEnd
             )
         )
     }
@@ -701,8 +701,8 @@ class StatsViewModel(
     private fun createTrendingBaselineGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.trendingBaseline,
-                AppColors.trendingBaseline
+                Color.Gray,
+                Color.Gray
             )
         )
     }
@@ -710,8 +710,8 @@ class StatsViewModel(
     private fun createTrendingPositiveGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.trendingPositive,
-                AppColors.trendingPositive
+                CustomColors.TrendingPositive,
+                CustomColors.TrendingPositive
             )
         )
     }
@@ -719,8 +719,8 @@ class StatsViewModel(
     private fun createTrendingNegativeGradient(): Brush {
         return Brush.verticalGradient(
             colors = listOf(
-                AppColors.trendingNegative,
-                AppColors.trendingNegative
+                CustomColors.TrendingNegative,
+                CustomColors.TrendingNegative
             )
         )
     }

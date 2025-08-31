@@ -16,11 +16,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+
 
 @Composable
 fun StreakBadge(days: Int, modifier: Modifier = Modifier) {
-    val bg = AppColors.primary.copy(alpha = 0.12f)
+            val bg = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
     Row(
         modifier = modifier
             .background(bg, RoundedCornerShape(18.dp))
@@ -33,7 +33,7 @@ fun StreakBadge(days: Int, modifier: Modifier = Modifier) {
             contentDescription = null,
             tint = Color.Red
         )
-        Text(text = "$days day${if (days == 1) "" else "s"} streak", color = AppColors.textPrimary, fontSize = 14.sp)
+                    Text(text = "$days day${if (days == 1) "" else "s"} streak", color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
     }
 }
 

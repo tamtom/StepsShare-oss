@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+
 import kotlinx.datetime.*
 
 data class DayInfo(

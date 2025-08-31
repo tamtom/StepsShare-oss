@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+import com.itdeveapps.stepsshare.ui.theme.CustomColors
 import com.itdeveapps.stepsshare.ui.stats.model.TrendIndicator
 import com.itdeveapps.stepsshare.ui.stats.model.TrendingStatsData
 import androidx.compose.material.icons.Icons
@@ -53,7 +53,7 @@ fun TrendingChart(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
         border = BorderStroke(
             width = 1.dp,
-            color = AppColors.surface
+            color = MaterialTheme.colorScheme.surface
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -73,13 +73,13 @@ fun TrendingChart(
                         ChartDataType.DISTANCE -> Icons.AutoMirrored.Filled.DirectionsWalk
                     },
                     contentDescription = null,
-                    tint = AppColors.primary,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
                     text = "${selectedDataType.name.lowercase().replaceFirstChar { it.uppercase() }} Trending",
                     style = MaterialTheme.typography.titleLarge,
-                    color = AppColors.textPrimary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -132,18 +132,18 @@ fun TrendingDateRangeSelector(
             modifier = Modifier.weight(1f),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (selectedDateRange == TrendingDateRange.SEVEN_DAYS)
-                    AppColors.primary else AppColors.surface
+                    MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
             ),
             border = BorderStroke(
                 width = 1.dp,
-                color = AppColors.surface
+                color = MaterialTheme.colorScheme.surface
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 text = "7 Days",
                 color = if (selectedDateRange == TrendingDateRange.SEVEN_DAYS)
-                    AppColors.onPrimary else AppColors.textPrimary
+                    MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
             )
         }
         
@@ -152,18 +152,18 @@ fun TrendingDateRangeSelector(
             modifier = Modifier.weight(1f),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (selectedDateRange == TrendingDateRange.THIRTY_DAYS)
-                    AppColors.primary else AppColors.surface
+                    MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
             ),
             border = BorderStroke(
                 width = 1.dp,
-                color = AppColors.surface
+                color = MaterialTheme.colorScheme.surface
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 text = "30 Days",
                 color = if (selectedDateRange == TrendingDateRange.THIRTY_DAYS)
-                    AppColors.onPrimary else AppColors.textPrimary
+                    MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -189,7 +189,7 @@ fun TrendingSummaryStats(stats: TrendingStatsData, selectedDataType: ChartDataTy
                         ChartDataType.DISTANCE -> "Average Distance"
                     },
                     style = MaterialTheme.typography.bodyMedium,
-                    color = AppColors.textSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = when (selectedDataType) {
@@ -199,7 +199,7 @@ fun TrendingSummaryStats(stats: TrendingStatsData, selectedDataType: ChartDataTy
                         ChartDataType.DISTANCE -> "${(stats.averageDistance * 10).toInt() / 10.0} km"
                     },
                     style = MaterialTheme.typography.headlineMedium,
-                    color = AppColors.textPrimary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -217,7 +217,7 @@ fun TrendingSummaryStats(stats: TrendingStatsData, selectedDataType: ChartDataTy
         Text(
             text = "Compared to ${stats.baselinePeriod}",
             style = MaterialTheme.typography.bodySmall,
-            color = AppColors.textSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -228,9 +228,9 @@ fun TrendingIndicator(
     trendDirection: TrendIndicator
 ) {
     val (backgroundColor, textColor) = when (trendDirection) {
-        TrendIndicator.POSITIVE -> AppColors.trendingPositive to Color.White
-        TrendIndicator.NEGATIVE -> AppColors.trendingNegative to Color.White
-        TrendIndicator.NEUTRAL -> AppColors.trendingBaseline to AppColors.textPrimary
+        TrendIndicator.POSITIVE -> CustomColors.TrendingPositive to Color.White
+        TrendIndicator.NEGATIVE -> CustomColors.TrendingNegative to Color.White
+        TrendIndicator.NEUTRAL -> MaterialTheme.colorScheme.outlineVariant to MaterialTheme.colorScheme.onBackground
     }
     
     val trendText = when (trendDirection) {
@@ -274,7 +274,7 @@ fun TrendingChartLegend() {
         Text(
             text = "Chart Legend",
             style = MaterialTheme.typography.bodyMedium,
-            color = AppColors.textPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Medium
         )
         
@@ -285,15 +285,15 @@ fun TrendingChartLegend() {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             LegendItem(
-                color = AppColors.trendingBaseline,
+                color = MaterialTheme.colorScheme.outlineVariant,
                 label = "Baseline Period"
             )
             LegendItem(
-                color = AppColors.trendingPositive,
+                color = CustomColors.TrendingPositive,
                 label = "Positive Trend"
             )
             LegendItem(
-                color = AppColors.trendingNegative,
+                color = CustomColors.TrendingNegative,
                 label = "Negative Trend"
             )
         }
@@ -317,7 +317,7 @@ fun LegendItem(
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = AppColors.textSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -346,20 +346,20 @@ fun TrendingChartDisplay(
         ),
         labelProperties = LabelProperties(
             textStyle = MaterialTheme.typography.bodySmall.copy(
-                color = AppColors.onSurface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             enabled = false
         ),
         labelHelperProperties = LabelHelperProperties(
             enabled = true,
             textStyle = MaterialTheme.typography.bodySmall.copy(
-                color = AppColors.onSurface
+                color = MaterialTheme.colorScheme.onSurface
             )
         ),
         indicatorProperties = HorizontalIndicatorProperties(
             enabled = false,
             textStyle = MaterialTheme.typography.bodySmall.copy(
-                color = AppColors.onSurface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             count = IndicatorCount.CountBased(count = 5),
             contentBuilder = { indicator ->
@@ -382,7 +382,7 @@ fun TrendingChartDisplay(
             xAxisProperties = GridProperties.AxisProperties(enabled = false),
             yAxisProperties = GridProperties.AxisProperties(
                 enabled = true,
-                color = SolidColor(AppColors.onSurface.copy(alpha = 0.3f)),
+                color = SolidColor(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)),
                 thickness = 1.dp,
                 lineCount = 1
             )

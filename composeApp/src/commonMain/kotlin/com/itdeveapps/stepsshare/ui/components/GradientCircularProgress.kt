@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+
 
 @Composable
 fun GradientCircularProgress(
@@ -36,7 +36,7 @@ fun GradientCircularProgress(
 
         // Track
         drawArc(
-            color = (trackColor ?: AppColors.unselected.copy(alpha = backgroundAlpha)),
+            color = (trackColor ?: MaterialTheme.colorScheme.outlineVariant.copy(alpha = backgroundAlpha)),
             startAngle = 135f,
             sweepAngle = 270f,
             useCenter = false,
@@ -48,7 +48,7 @@ fun GradientCircularProgress(
         // Progress with gradient
         drawArc(
             brush = Brush.sweepGradient(
-                colors = progressColors ?: listOf(AppColors.primary, AppColors.primaryLight)
+                colors = progressColors ?: listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
             ),
             startAngle = 135f,
             sweepAngle = 270f * clamped,

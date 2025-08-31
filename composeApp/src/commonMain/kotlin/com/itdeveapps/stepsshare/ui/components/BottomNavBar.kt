@@ -14,7 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
 import com.itdeveapps.stepsshare.navigation.BottomTabItem
 import com.itdeveapps.stepsshare.navigation.MainDestination
-import com.itdeveapps.stepsshare.ui.theme.AppColors
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun BottomNavBar(
@@ -57,11 +57,11 @@ fun BottomNavBar(
 				icon = { androidx.compose.material3.Icon(imageVector = item.icon, contentDescription = item.label) },
 				label = { Text(item.label) },
 				colors = NavigationBarItemDefaults.colors(
-					selectedIconColor = AppColors.selected,
-					selectedTextColor = AppColors.selected,
-					unselectedIconColor = AppColors.unselected,
-					unselectedTextColor = AppColors.unselected,
-					indicatorColor = AppColors.selected.copy(alpha = 0.15f)
+					        selectedIconColor = MaterialTheme.colorScheme.primary,
+        selectedTextColor = MaterialTheme.colorScheme.primary,
+        unselectedIconColor = MaterialTheme.colorScheme.outlineVariant,
+        unselectedTextColor = MaterialTheme.colorScheme.outlineVariant,
+        indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
 				)
             )
         }

@@ -14,12 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.itdeveapps.stepsshare.ui.theme.AppColors
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.getValue
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun MainStepsDisplay(
@@ -69,7 +69,7 @@ fun MainStepsDisplay(
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.DirectionsWalk,
                     contentDescription = "Walking",
-                    tint = AppColors.primary,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(40.dp)
                 )
                 
@@ -80,7 +80,7 @@ fun MainStepsDisplay(
                     text = animatedSteps.toString(),
                     fontSize = 52.sp,
                     fontWeight = FontWeight.Bold,
-                    color = AppColors.textPrimary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
                 
@@ -89,7 +89,7 @@ fun MainStepsDisplay(
                     text = "Steps",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = AppColors.textSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
             }
@@ -103,7 +103,7 @@ fun MainStepsDisplay(
                     text = "from ${goalSteps.formatWithSpaces()}",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = AppColors.textSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
 
@@ -113,7 +113,7 @@ fun MainStepsDisplay(
                         text = "on average ${averageSteps.formatWithSpaces()}",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
-                        color = AppColors.primary,
+                        color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center
                     )
                 }
