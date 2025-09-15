@@ -7,6 +7,19 @@
 
 A modern, cross-platform fitness tracking application built with **Kotlin Multiplatform** and **Compose Multiplatform**. Track your daily steps, set personalized goals, and monitor your fitness progress across Android and iOS devices.
 
+## 📱 Download
+
+Get StepsShare on your device today!
+
+<div align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.itdeveapps.stepsshare">
+    <img src="https://img.shields.io/badge/Get%20it%20on-Google%20Play-green?style=for-the-badge&logo=google-play" alt="Get it on Google Play" height="60">
+  </a>
+  <a href="https://apps.apple.com/us/app/steps-share-pedometer/id6751459595">
+    <img src="https://img.shields.io/badge/Download%20on-the%20App%20Store-black?style=for-the-badge&logo=apple" alt="Download on the App Store" height="60">
+  </a>
+</div>
+
 ## ✨ Features
 
 ### 🎯 **Core Functionality**
