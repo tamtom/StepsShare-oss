@@ -13,10 +13,10 @@ Get StepsShare on your device today!
 
 <div align="center">
   <a href="https://play.google.com/store/apps/details?id=com.itdeveapps.stepsshare">
-    <img src="https://img.shields.io/badge/Get%20it%20on-Google%20Play-green?style=for-the-badge&logo=google-play" alt="Get it on Google Play" height="60">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80">
   </a>
   <a href="https://apps.apple.com/us/app/steps-share-pedometer/id6751459595">
-    <img src="https://img.shields.io/badge/Download%20on-the%20App%20Store-black?style=for-the-badge&logo=apple" alt="Download on the App Store" height="60">
+    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" height="80">
   </a>
 </div>
 
