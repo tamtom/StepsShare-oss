@@ -12,12 +12,21 @@ A modern, cross-platform fitness tracking application built with **Kotlin Multip
 Get StepsShare on your device today!
 
 <div align="center">
-  <a href="https://play.google.com/store/apps/details?id=com.itdeveapps.stepsshare">
-    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="60" style="vertical-align: middle; margin-right: 10px;">
-  </a>
-  <a href="https://apps.apple.com/us/app/steps-share-pedometer/id6751459595">
-    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" height="60" style="vertical-align: middle;">
-  </a>
+  <table>
+    <tr>
+      <td>
+        <a href="https://play.google.com/store/apps/details?id=com.itdeveapps.stepsshare">
+          <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="60">
+        </a>
+      </td>
+      <td style="width: 20px;"></td>
+      <td>
+        <a href="https://apps.apple.com/us/app/steps-share-pedometer/id6751459595">
+          <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" height="60">
+        </a>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ## ✨ Features
