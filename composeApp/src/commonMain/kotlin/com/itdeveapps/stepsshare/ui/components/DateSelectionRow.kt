@@ -45,21 +45,21 @@ fun DayProgressItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .padding(horizontal = 4.dp)
-            .width(64.dp)
+            .padding(all = 4.dp)
+            .width(44.dp)
             .clickable(enabled = !dayInfo.isFuture) {
                 onDateSelected(dayInfo.date)
             }
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(40.dp)
         ) {
             // Background circle for selection state
             if (dayInfo.isSelected) {
                 Box(
                     modifier = Modifier
-                        .size(60.dp)
+                        .size(40.dp)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
                 )
@@ -68,9 +68,9 @@ fun DayProgressItem(
             // Circular progress
             GradientCircularProgress(
                 progress = progress,
-                diameter = 48.dp,
-                strokeWidth = 4.dp,
-                modifier = Modifier.size(48.dp)
+                diameter = 38.dp,
+                strokeWidth = 2.dp,
+                modifier = Modifier.size(38.dp)
             )
             
             // Date number in center
@@ -139,7 +139,7 @@ fun DateSelectionRow(
     
     LazyRow(
         state = listState,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = modifier.fillMaxWidth()
     ) {

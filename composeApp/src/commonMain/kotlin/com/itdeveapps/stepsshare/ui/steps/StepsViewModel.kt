@@ -23,6 +23,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
@@ -45,8 +46,12 @@ class StepsViewModel(
 
     init {
         // Initialize today's date
-        _uiState.update { it.copy(date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date) }
-         viewModelScope.launch {
+        _uiState.update {
+            it.copy(
+                date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            )
+        }
+        viewModelScope.launch {
             stepsRepository.permissionState.collectLatest { state ->
                 println("StepsDebug: Permission state changed to: $state")
                 _uiState.update { it.copy(permission = state) }
@@ -79,7 +84,7 @@ class StepsViewModel(
     private var userProfile: UserProfile? = null
     private var goals: ActivityGoals? = null
     private var stepsGoal: Int = 0
-    
+
     // Initialize profile and goals
     private fun initializeUserData() {
         viewModelScope.launch {
@@ -127,7 +132,7 @@ class StepsViewModel(
         val profile = userProfile ?: return ActivityMetrics(0.0, 0.0, 0.0)
         return activityMetricsUseCase.calculateMetrics(steps, profile)
     }
-    
+
     // Expose goals for UI
     fun getGoals(): ActivityGoals? = goals
     fun getStepsGoal(): Int = stepsGoal
@@ -149,7 +154,7 @@ class StepsViewModel(
 
     fun setDate(newDate: LocalDate) {
         _uiState.update { it.copy(date = newDate) }
-        
+
         // Use cached data if available, otherwise fetch fresh data
         val cachedSteps = stepsCache[newDate]
         println("StepsDebug: setDate($newDate) - cached steps: $cachedSteps")
@@ -161,12 +166,12 @@ class StepsViewModel(
             refreshSteps()
         }
     }
-    
+
     override fun onCleared() {
         super.onCleared()
         cacheUpdateJob?.cancel()
     }
-    
+
     /**
      * Fetches and caches step data for the visible date range (today-29 to today+2)
      */
@@ -177,16 +182,19 @@ class StepsViewModel(
                 val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                 val startDate = today.plus(DatePeriod(days = -29))
                 val endDate = today.plus(DatePeriod(days = 2))
-                
+
                 println("StepsDebug: refreshStepsDataForDateRange() starting - permission: ${stepsRepository.permissionState.value}")
                 val stepsData = stepsRepository.readStepsForDateRange(startDate, endDate)
                 println("StepsDebug: Fetched steps data for range $startDate to $endDate: ${stepsData.size} entries")
                 stepsData.forEach { (date, steps) ->
                     println("StepsDebug: Cache data - $date: $steps steps")
                 }
-                
+
                 stepsCache.clear()
                 stepsCache.putAll(stepsData)
+
+                // Update chart data based on the refreshed cache
+                _uiState.update { it.copy(chartData = getChartData()) }
 
                 // Bump cache version in UI state to trigger recomposition
                 _uiState.update { prev -> prev.copy(cacheVersion = prev.cacheVersion + 1) }
@@ -204,7 +212,7 @@ class StepsViewModel(
             }
         }
     }
-    
+
     fun getStepsForDate(date: LocalDate): Int {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val result = when {
@@ -212,17 +220,17 @@ class StepsViewModel(
             date == _uiState.value.date -> _uiState.value.steps.toInt() // Current selected date from UI state
             else -> stepsCache[date]?.toInt() ?: 0 // Cached data or 0 if not available
         }
-        
+
         println("StepsDebug: getStepsForDate($date) -> $result (today=$today, selectedDate=${_uiState.value.date}, cacheSize=${stepsCache.size})")
         if (date == _uiState.value.date) {
             println("StepsDebug: Using UI state steps: ${_uiState.value.steps}")
         } else {
             println("StepsDebug: Cache value for $date: ${stepsCache[date]}")
         }
-        
+
         return result
     }
-    
+
     fun getAverageSteps(): Int {
         // Calculate average from cached data or return mock data
         val validSteps = stepsCache.values.filter { it > 0 }
@@ -233,13 +241,36 @@ class StepsViewModel(
         }
     }
 
-}
 
+    fun getChartData(): List<ChartDataPoint> {
+        val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val chartData = mutableListOf<ChartDataPoint>()
+
+        // Get last 7 days including today
+        for (i in 6 downTo 0) {
+            val date = today.minus(DatePeriod(days = i))
+            val steps = stepsCache[date] ?: 0L
+            chartData.add(ChartDataPoint(date = date, steps = steps))
+        }
+
+        return chartData
+    }
+
+
+
+
+
+
+}
 data class StepsUiState(
     val permission: PermissionState = PermissionState.Unknown,
-    val date: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
+    val date: LocalDate = Clock.System.now()
+        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
     val steps: Long = 0,
-    val cacheVersion: Int = 0
+    val cacheVersion: Int = 0,
+    val chartData: List<ChartDataPoint> = emptyList()
 )
-
-
+data class ChartDataPoint(
+    val date: LocalDate,
+    val steps: Long
+)

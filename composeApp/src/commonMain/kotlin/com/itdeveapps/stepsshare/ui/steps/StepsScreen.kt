@@ -37,6 +37,7 @@ import com.itdeveapps.stepsshare.ui.components.DateSelectionRow
 import com.itdeveapps.stepsshare.ui.components.GoalMetricDial
 import com.itdeveapps.stepsshare.ui.components.MainStepsDisplay
 import com.itdeveapps.stepsshare.ui.components.StreakBadge
+import com.itdeveapps.stepsshare.ui.components.StepsLineChart
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -204,6 +205,14 @@ fun StepsScreenContent(
                     unitText = timeUnit
                 )
             }
+        }
+
+        // Steps Chart
+        if (state.chartData.isNotEmpty()) {
+            StepsLineChart(
+                chartData = state.chartData,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
         }
 
     }

@@ -20,6 +20,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.getValue
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 
 @Composable
 fun MainStepsDisplay(
@@ -28,35 +33,44 @@ fun MainStepsDisplay(
     averageSteps: Int = 0,
     modifier: Modifier = Modifier
 ) {
+    var shouldAnimate by remember { mutableStateOf(false) }
+    
+    // Delay animation start by 500ms
+    LaunchedEffect(Unit) {
+        delay(200)
+        shouldAnimate = true
+    }
+
     val animatedProgress by animateFloatAsState(
-        targetValue = (currentSteps.toFloat() / goalSteps).coerceIn(0f, 1f),
+        targetValue = if (shouldAnimate) (currentSteps.toFloat() / goalSteps).coerceIn(0f, 1f) else 0f,
         animationSpec = tween(
             durationMillis = 1000,
             easing = EaseOutExpo
         )
     )
     val animatedSteps by animateIntAsState(
-        targetValue = currentSteps.toInt(),
+        targetValue = if (shouldAnimate) currentSteps.toInt() else 0,
         animationSpec = tween(
             durationMillis = 1000,
             easing = EaseOutExpo
         )
     )
-    
+
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.size(280.dp)
+            modifier = Modifier.size(220.dp)
         ) {
             // Large circular progress
             GradientCircularProgress(
                 progress = animatedProgress,
-                diameter = 280.dp,
+                diameter = 220.dp,
                 strokeWidth = 12.dp,
-                modifier = Modifier.size(280.dp)
+                modifier = Modifier.size(220.dp)
             )
             
             // Content in center
