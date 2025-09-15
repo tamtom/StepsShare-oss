@@ -9,22 +9,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-// Custom colors that don't exist in Material3
-object CustomColors {
-    // Accent colors for specific UI elements
-    val AccentGreen = Color(0xFF10B981)
-    val AccentYellow = Color(0xFFFBBF24)
-    
-    // Trending colors for charts
-    val TrendingPositive = Color(0xFF10B981)
-    val TrendingNegative = Color(0xFFEF4444)
-    
-    // Custom gradients
-    val ButtonGradientStart = Color(0xFF8B5CF6)
-    val ButtonGradientEnd = Color(0xFFC084FC)
-    val ProgressGradientStart = Color(0xFF8B5CF6)
-    val ProgressGradientEnd = Color(0xFFC084FC)
-}
 
 // Extended color scheme with custom colors
 data class ExtendedColorScheme(

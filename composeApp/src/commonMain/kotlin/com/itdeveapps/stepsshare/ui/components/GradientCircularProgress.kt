@@ -2,6 +2,7 @@ package com.itdeveapps.stepsshare.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -26,6 +27,15 @@ fun GradientCircularProgress(
 ) {
     val clamped = progress.coerceIn(0f, 1f)
 
+    // Resolve theme-dependent colors in composable scope
+    val resolvedTrackColor = trackColor
+        ?: MaterialTheme.colorScheme.outlineVariant.copy(alpha = backgroundAlpha)
+    val resolvedProgressColors = progressColors
+        ?: listOf(
+            MaterialTheme.colorScheme.primary,
+            MaterialTheme.colorScheme.secondary
+        )
+
     Canvas(modifier = modifier.size(diameter)) {
         val stroke = Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round)
         val inset = stroke.width / 2f
@@ -36,7 +46,7 @@ fun GradientCircularProgress(
 
         // Track
         drawArc(
-            color = (trackColor ?: MaterialTheme.colorScheme.outlineVariant.copy(alpha = backgroundAlpha)),
+            color = resolvedTrackColor,
             startAngle = 135f,
             sweepAngle = 270f,
             useCenter = false,
@@ -47,9 +57,7 @@ fun GradientCircularProgress(
 
         // Progress with gradient
         drawArc(
-            brush = Brush.sweepGradient(
-                colors = progressColors ?: listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
-            ),
+            brush = Brush.sweepGradient(colors = resolvedProgressColors),
             startAngle = 135f,
             sweepAngle = 270f * clamped,
             useCenter = false,
