@@ -164,7 +164,7 @@ We welcome contributions from the community! Here's how you can help:
 
 ## 🌟 Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/StepsShare-oss&type=Date)](https://star-history.com/#yourusername/StepsShare-oss&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=tamtom/StepsShare-oss&type=Date)](https://star-history.com/#yourusername/StepsShare-oss&Date)
 
 ---
 
