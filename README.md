@@ -28,11 +28,30 @@ Get StepsShare on your device today!
     </tr>
   </table>
   
-![Android_06](https://github.com/user-attachments/assets/d85044d8-6b98-4a3e-862f-f15bbdec2b80)
-![Android_05](https://github.com/user-attachments/assets/4ef6b41b-2d2c-4a7b-ba2d-4a066c775da6)
-![Android_04](https://github.com/user-attachments/assets/48416413-8de8-4315-b3e5-4674b928ac39)
-![Android_03](https://github.com/user-attachments/assets/bbfa4f36-f85f-4a02-8cf6-fcd4787c03ca)
-![Android_02](https://github.com/user-attachments/assets/66854077-c85f-4eb2-b925-bd41e91bed23)
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/d85044d8-6b98-4a3e-862f-f15bbdec2b80" alt="Android Screenshot 1" width="200">
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/4ef6b41b-2d2c-4a7b-ba2d-4a066c775da6" alt="Android Screenshot 2" width="200">
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/48416413-8de8-4315-b3e5-4674b928ac39" alt="Android Screenshot 3" width="200">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/bbfa4f36-f85f-4a02-8cf6-fcd4787c03ca" alt="Android Screenshot 4" width="200">
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/66854077-c85f-4eb2-b925-bd41e91bed23" alt="Android Screenshot 5" width="200">
+    </td>
+    <td align="center">
+      <!-- Empty cell for alignment -->
+    </td>
+  </tr>
+</table>
 
 </div>
 
