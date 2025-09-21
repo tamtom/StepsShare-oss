@@ -42,10 +42,10 @@ Get StepsShare on your device today!
   </tr>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/bbfa4f36-f85f-4a02-8cf6-fcd4787c03ca" alt="Android Screenshot 4" width="200">
+      <img src="https://github.com/user-attachments/assets/66854077-c85f-4eb2-b925-bd41e91bed23" alt="Android Screenshot 4" width="200">
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/66854077-c85f-4eb2-b925-bd41e91bed23" alt="Android Screenshot 5" width="200">
+      <img src="https://github.com/user-attachments/assets/bbfa4f36-f85f-4a02-8cf6-fcd4787c03ca" alt="Android Screenshot 5" width="200">
     </td>
     <td align="center">
       <!-- Empty cell for alignment -->
