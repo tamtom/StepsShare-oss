@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.itdeveapps.stepsshare.data.local.DailyStepsDao
 import com.itdeveapps.stepsshare.data.local.TrackerStateDao
@@ -37,6 +38,10 @@ class AndroidStepsRepository(
     private val trackerStateDao: TrackerStateDao,
     private val sensorManager: StepsSensorManager
 ) : StepsRepository {
+    
+    companion object {
+        private const val TAG = "StepsDebug"
+    }
 
     private val _permissionState = MutableStateFlow<PermissionState>(PermissionState.Unknown)
     override val permissionState: StateFlow<PermissionState> = _permissionState
@@ -46,6 +51,11 @@ class AndroidStepsRepository(
     // Real-time step tracking
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var isTrackingActive = false
+    
+    // Debouncing and validation
+    private var lastProcessedTime = 0L
+    private val MIN_PROCESSING_INTERVAL_MS = 1000L // Process at most once per second
+    private val MAX_REALISTIC_DELTA = 50L // Max steps in a single reading (prevents sensor glitches)
 
     // Track denial count to decide when to redirect to settings
     private val prefs: SharedPreferences =
@@ -142,7 +152,9 @@ class AndroidStepsRepository(
      * Start real-time step tracking while app is active
      */
     fun startRealtimeTracking() {
-        if (isTrackingActive || !hasActivityRecognitionPermission()) return
+        if (isTrackingActive || !hasActivityRecognitionPermission()) {
+            return
+        }
         isTrackingActive = true
 
         sensorManager.startContinuousTracking()
@@ -172,47 +184,82 @@ class AndroidStepsRepository(
     private suspend fun processLiveReading(reading: StepsSensorManager.Reading) {
         withContext(Dispatchers.IO) {
             val now = Clock.System.now()
+            val nowMillis = now.toEpochMillis()
+            
+            // Debounce: Ignore readings that come too quickly
+            val timeSinceLastProcess = nowMillis - lastProcessedTime
+            if (timeSinceLastProcess < MIN_PROCESSING_INTERVAL_MS) {
+                return@withContext
+            }
+            lastProcessedTime = nowMillis
+            
             val todayEpochDay = now.toEpochDayLocal()
             val state = trackerStateDao.get()
+            
 
             when (reading) {
                 is StepsSensorManager.Reading.Counter -> {
                     val current = reading.cumulativeStepsSinceBoot.toLong()
                     val last = state?.lastCumulative
+                    val lastType = state?.lastSensorType
+                    
                     
                     if (last == null) {
                         // First reading - set baseline
                         trackerStateDao.upsert(
                             TrackerStateEntity(
                                 lastCumulative = current,
-                                lastReadingAt = now.toEpochMillis(),
+                                lastReadingAt = nowMillis,
                                 lastSensorType = "COUNTER",
                             )
                         )
                     } else if (current >= last) {
                         val delta = current - last
-                        if (delta > 0) {
+                        
+                        // Validate delta is realistic
+                        if (delta > MAX_REALISTIC_DELTA) {
+                            // Still update the baseline to prevent future bad deltas
+                            trackerStateDao.upsert(
+                                TrackerStateEntity(
+                                    lastCumulative = current,
+                                    lastReadingAt = nowMillis,
+                                    lastSensorType = "COUNTER",
+                                )
+                            )
+                        } else if (delta > 0) {
+                            val beforeSteps = dailyStepsDao.getByDate(todayEpochDay)?.steps ?: 0L
+                            
                             dailyStepsDao.addStepsForDate(
                                 todayEpochDay,
                                 delta,
-                                now.toEpochMillis()
+                                nowMillis
                             )
+                            
                             val total = dailyStepsDao.getByDate(todayEpochDay)?.steps ?: 0L
                             _todaySteps.value = total
-                        }
-                        trackerStateDao.upsert(
-                            TrackerStateEntity(
-                                lastCumulative = current,
-                                lastReadingAt = now.toEpochMillis(),
-                                lastSensorType = "COUNTER",
+                            
+                            trackerStateDao.upsert(
+                                TrackerStateEntity(
+                                    lastCumulative = current,
+                                    lastReadingAt = nowMillis,
+                                    lastSensorType = "COUNTER",
+                                )
                             )
-                        )
+                        } else {
+                            trackerStateDao.upsert(
+                                TrackerStateEntity(
+                                    lastCumulative = current,
+                                    lastReadingAt = nowMillis,
+                                    lastSensorType = "COUNTER",
+                                )
+                            )
+                        }
                     } else {
                         // Device reboot/reset detected
                         trackerStateDao.upsert(
                             TrackerStateEntity(
                                 lastCumulative = current,
-                                lastReadingAt = now.toEpochMillis(),
+                                lastReadingAt = nowMillis,
                                 lastSensorType = "COUNTER",
                             )
                         )
@@ -221,19 +268,28 @@ class AndroidStepsRepository(
                 is StepsSensorManager.Reading.Detector -> {
                     // For detector, we get incremental steps
                     val steps = reading.stepsDetected.toLong()
-                    if (steps > 0) {
+                    
+                    // Validate detector delta is realistic (should always be 1 for detector)
+                    if (steps > 10) {
+                        Log.w(TAG, "⚠️ REJECTED: Detector reported $steps steps - likely glitch")
+                    } else if (steps > 0) {
+                        val beforeSteps = dailyStepsDao.getByDate(todayEpochDay)?.steps ?: 0L
+                        Log.d(TAG, "💾 DB before: $beforeSteps steps")
+                        
                         dailyStepsDao.addStepsForDate(
                             todayEpochDay,
                             steps,
-                            now.toEpochMillis()
+                            nowMillis
                         )
+                        
                         val total = dailyStepsDao.getByDate(todayEpochDay)?.steps ?: 0L
                         _todaySteps.value = total
                     }
+                    
                     trackerStateDao.upsert(
                         TrackerStateEntity(
                             lastCumulative = state?.lastCumulative,
-                            lastReadingAt = now.toEpochMillis(),
+                            lastReadingAt = nowMillis,
                             lastSensorType = "DETECTOR",
                         )
                     )

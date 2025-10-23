@@ -5,6 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.delay
@@ -27,6 +28,10 @@ class StepsSensorManager(private val context: Context) {
 
     private var currentListener: SensorEventListener? = null
     private var stepEventCount = 0
+    
+    companion object {
+        private const val TAG = "StepsDebug"
+    }
 
     fun isAnyStepSensorAvailable(): Boolean {
         val mgr = sensorManager ?: return false
@@ -53,9 +58,13 @@ class StepsSensorManager(private val context: Context) {
     /**
      * Start continuous step monitoring for real-time updates
      */
+    @Synchronized
     fun startContinuousTracking() {
         val mgr = sensorManager ?: return
-        if (currentListener != null) return // Already tracking
+        if (currentListener != null) {
+            mgr.unregisterListener(currentListener)
+            currentListener = null
+        }
 
         val counter = mgr.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         val detector = mgr.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
@@ -64,12 +73,11 @@ class StepsSensorManager(private val context: Context) {
             startCounterTracking(mgr, counter)
         } else if (detector != null) {
             startDetectorTracking(mgr, detector)
-        }
+        } 
     }
 
-    /**
-     * Stop continuous step monitoring
-     */
+
+    @Synchronized
     fun stopContinuousTracking() {
         currentListener?.let { listener ->
             sensorManager?.unregisterListener(listener)
@@ -85,10 +93,14 @@ class StepsSensorManager(private val context: Context) {
                     _liveStepUpdates.value = Reading.Counter(steps)
                 }
             }
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+                Log.d(TAG, "📊 COUNTER sensor accuracy changed: $accuracy")
+            }
         }
         currentListener = listener
-        mgr.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_UI)
+        // Use SENSOR_DELAY_NORMAL for step tracking (200ms sampling rate)
+        // SENSOR_DELAY_UI is too fast and causes sensor inaccuracies
+        mgr.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private fun startDetectorTracking(mgr: SensorManager, sensor: Sensor) {
@@ -96,14 +108,18 @@ class StepsSensorManager(private val context: Context) {
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
                 if (event.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
+                    stepEventCount++
                     // Emit delta = 1 per step event for correct aggregation upstream
                     _liveStepUpdates.value = Reading.Detector(1)
                 }
             }
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+                Log.d(TAG, "👣 DETECTOR sensor accuracy changed: $accuracy")
+            }
         }
         currentListener = listener
-        mgr.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_UI)
+        // Use SENSOR_DELAY_NORMAL for step tracking
+        mgr.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private suspend fun readCounterOnce(
